@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:url_launcher/url_launcher.dart';
 import 'package:weather_app/components/main_elements.dart';
 import 'package:http/http.dart' as http;
 import 'package:weather_app/components/main_screen_skeleton.dart';
@@ -89,6 +90,13 @@ class _WeatherScreenState extends State<WeatherScreen> {
         "Weather App",
         style: TextStyle(fontWeight: FontWeight.bold),
       ),
+       leading: const IconButton(
+          icon: Icon(
+            Icons.download,
+            color: Colors.white,
+          ),
+          onPressed: _launchURLGDrive,
+        ),
       centerTitle: true,
       actions: [
         IconButton(
@@ -102,5 +110,14 @@ class _WeatherScreenState extends State<WeatherScreen> {
         )
       ],
     );
+  }
+}
+
+_launchURLGDrive() async {
+  const url = 'https://bit.ly/weatherapkansh';
+  if (await canLaunchUrl(Uri.parse(url))) {
+    await launchUrl(Uri.parse(url));
+  } else {
+    throw 'Could not launch $url';
   }
 }
